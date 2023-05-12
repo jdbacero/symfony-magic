@@ -43,12 +43,16 @@ team_edit:
   controller: App\Controller\TeamController::edit
   methods: GET|POST
 
-team_buy:
-  path: /teams/{id}/buy
-  controller: App\Controller\TeamController::buy
-  methods: POST
+app_buy_player:
+    path: /players/{id}/buy
+    defaults:
+        _controller: App\Controller\TeamController::buy
+    requirements:
+        _method: POST
 
-team_sell:
-  path: /teams/{id}/sell
-  controller: App\Controller\TeamController::sell
-  methods: POST
+app_transfer_market:
+    path: /transfer-market
+    defaults:
+        _controller: App\Controller\TeamController::transfer
+    requirements:
+        _method: GET

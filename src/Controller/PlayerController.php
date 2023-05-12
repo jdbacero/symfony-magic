@@ -69,7 +69,7 @@ class PlayerController extends AbstractController
     #[Route('/{id}', name: 'app_player_delete', methods: ['POST'])]
     public function delete(Request $request, Player $player, PlayerRepository $playerRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$player->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $player->getId(), $request->request->get('_token'))) {
             $playerRepository->remove($player, true);
         }
 

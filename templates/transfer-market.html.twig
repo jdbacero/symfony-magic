@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transfer Market{% endblock %}
+
+{% block body %}
+    <h1>Transfer Market</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Team</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in players %}
+            <tr>
+                <td>{{ player.name }}</td>
+                <td>{{ player.team }}</td>
+                <td>{{ player.price }}</td>
+                <td>
+                    <form action="{{ path('buy') }}" method="post">
+                        <input type="hidden" name="playerId" value="{{ player.id }}" />
+                        <select name="teamId">
+                            {% for team in teams %}
+                                <option value="{{ team.id }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Buy ({{ player.price }} €)" />
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

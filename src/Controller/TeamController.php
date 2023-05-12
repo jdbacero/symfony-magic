@@ -9,6 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Player;
+use App\Repository\PlayerRepository;
 
 #[Route('/team')]
 class TeamController extends AbstractController
@@ -18,6 +22,21 @@ class TeamController extends AbstractController
     {
         return $this->render('team/index.html.twig', [
             'teams' => $teamRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/transfer-market', name: 'transfer_market', methods: ['GET', 'POST'])]
+    public function transfer(Request $request, EntityManagerInterface $entityManager, TeamRepository $teamRepository): Response
+    {
+        $players = $entityManager
+            ->getRepository('App\Entity\Player')
+            ->findAll();
+
+        $teams = $teamRepository->findAll();
+
+        return $this->render('transfer-market.html.twig', [
+            'players' => $players,
+            'teams' => $teams,
         ]);
     }
 
@@ -75,5 +94,31 @@ class TeamController extends AbstractController
         }
 
         return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/players/buy', name: 'buy', methods: ['POST'])]
+    public function buy(Request $request, PlayerRepository $Player, TeamRepository $Team, EntityManagerInterface $EntityManager): Response
+    {
+        $playerId = $request->request->get('playerId');
+        $teamId = $request->request->get('teamId');
+
+        $player = $Player->find($playerId);
+        $team = $Team->find($teamId);
+
+        if ($team->getMoneyBalance() >= $player->getPrice()) {
+            $team->addPlayer($player);
+            $team->setMoneyBalance($team->getMoneyBalance() - $player->getPrice());
+            $EntityManager->persist($team);
+            $EntityManager->flush();
+
+            return $this->redirectToRoute('app_transfer_market', [], Response::HTTP_SEE_OTHER);
+        } else {
+            return $this->render('transfer-market.html.twig', [
+                'players' => $Player->findAll(),
+                'teams' => $Team->findAll(),
+                'message' => 'You do not have enough money to buy this player.',
+            ]);
+        }
     }
 }

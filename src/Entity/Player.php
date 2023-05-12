@@ -22,9 +22,22 @@ class Player
     #[ORM\ManyToOne(inversedBy: 'players')]
     private ?Team $team = null;
 
+    #[ORM\Column(type: 'integer')]
+    public ?int $price = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+    public function setPrice(int $price): ?int
+    {
+        $this->price = $price;
+
+        return $price;
     }
 
     public function getName(): ?string

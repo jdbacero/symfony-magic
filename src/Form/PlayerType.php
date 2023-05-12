@@ -14,8 +14,8 @@ class PlayerType extends AbstractType
         $builder
             ->add('name')
             ->add('surname')
-            ->add('team')
-        ;
+            ->add('price')
+            ->add('team');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
