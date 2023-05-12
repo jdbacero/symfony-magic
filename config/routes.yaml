@@ -42,14 +42,7 @@ team_edit:
   path: /teams/{id}/edit
   controller: App\Controller\TeamController::edit
   methods: GET|POST
-
-app_buy_player:
-    path: /players/{id}/buy
-    defaults:
-        _controller: App\Controller\TeamController::buy
-    requirements:
-        _method: POST
-
+  
 app_transfer_market:
     path: /transfer-market
     defaults:
