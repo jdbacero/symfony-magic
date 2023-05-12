@@ -1,0 +1,54 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+player_index:
+  path: /players
+  controller: App\Controller\PlayerController::index
+  methods: GET
+
+player_new:
+  path: /players/new
+  controller: App\Controller\PlayerController::new
+  methods: GET|POST
+
+player_show:
+  path: /players/{id}
+  controller: App\Controller\PlayerController::show
+  methods: GET
+
+player_edit:
+  path: /players/{id}/edit
+  controller: App\Controller\PlayerController::edit
+  methods: GET|POST
+
+team_index:
+  path: /teams
+  controller: App\Controller\TeamController::index
+  methods: GET
+
+team_new:
+  path: /teams/new
+  controller: App\Controller\TeamController::new
+  methods: GET|POST
+
+team_show:
+  path: /teams/{id}
+  controller: App\Controller\TeamController::show
+  methods: GET
+
+team_edit:
+  path: /teams/{id}/edit
+  controller: App\Controller\TeamController::edit
+  methods: GET|POST
+
+team_buy:
+  path: /teams/{id}/buy
+  controller: App\Controller\TeamController::buy
+  methods: POST
+
+team_sell:
+  path: /teams/{id}/sell
+  controller: App\Controller\TeamController::sell
+  methods: POST
